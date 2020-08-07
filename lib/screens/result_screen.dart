@@ -45,7 +45,14 @@ class _ResultScreenState extends State<ResultScreen> {
   List<Widget> scoreKeeper6 = [];
 
 
-
+  // TODO　ダイアログのボタンで発火して画面遷移するには
+  // ダイアログではなくて、その下に表示されてる画面のcontextが必要です
+  // void checkAnswer1(String userPickedAnswer, BuildContext parentContext) こんな感じ
+  // それでcontextを使えばちゃんとダイアログの下の画面が変わると思います。
+  // ダイアログのcontextをポップするのもお忘れなく
+  //  onPressed: () {
+  //　　Navigator.pushNamed(parentContext, ResultScreen.id);
+  //  },
   void checkAnswer1(String userPickedAnswer) {
     String correctAnswer = quizBrain.getCorrectAnswer();
     setState(() {
@@ -246,17 +253,6 @@ class _ResultScreenState extends State<ResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('アンケート')),
-      // TODO
-      // quizBrain.isFinished()で質問が終わったかを判定してるっぽいので
-      // それをレイアウト側でも参照すれば画面を切り替えられる
-      // ダイアログ内で画面遷移しようとすると管理しなきゃいけないことがあって大変なのでオススメはしないです
-      // quizBrain.isFinished()　←これを使う場合はどこかにsetStateが必要です
-      /* ex)
-         body: quizBrain.isFinished() ? Container() : Container();
-      */
-
-      // ダイアログの「採点ページ」ボタン押したらtrueになるような変数を作って
-      // 上記の様に条件に使うのも良いです
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         child: Column(
