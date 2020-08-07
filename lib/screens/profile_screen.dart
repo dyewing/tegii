@@ -55,6 +55,8 @@ class ProfileScreen1State extends State<ProfileScreen1>  {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
+                        // TODO 生年月日はshowDatePickerとか使った方が良い
+                        // https://api.flutter.dev/flutter/material/showDatePicker.html
                         child: TextField(
                           onChanged: (text) {
                             this.birthday = text;
@@ -64,6 +66,7 @@ class ProfileScreen1State extends State<ProfileScreen1>  {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
+                        // TODO 性別はラジオボタンにした方が良い
                         child: TextField(
                           onChanged: (text) {
                             this.gender = text;
@@ -89,6 +92,8 @@ class ProfileScreen1State extends State<ProfileScreen1>  {
                               borderRadius: BorderRadius.circular(40.0),
                             ),
                           onPressed: () {
+                            // TODO ここは入力フォームに値が入っているかの確認をした方が良い
+                            // ex) if (name.isNotEmpty && birthday.isNotEmpty && gender.isNotEmpty && age.isNotEmpty)
                             Navigator.push(
                               context,
                               new MaterialPageRoute<Null>(

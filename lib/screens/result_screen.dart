@@ -8,6 +8,16 @@ QuizBrain quizBrain = QuizBrain();
 
 class ResultScreen extends StatefulWidget {
   String name = '', birthday = '', gender = '', age = ''; // 入力値保持用
+  // TODO 引数の初期値はこうやっていれるのはよろしくない
+  // クラスの引数は以下みたいにすると見た目的にも綺麗
+  // @required　を付けることで引数が渡されない状態を防げる
+  /*
+  ResultScreen({
+    @required this.name,
+    @required this.birthday,
+    @required this.gender,
+    @required this.age});
+  */
   ResultScreen(String name, birthday, gender, age) {
     this.name = name;
     this.birthday = birthday;
@@ -20,6 +30,11 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+
+  // TODO ここに「はい」「いいえ」「どちらでもない」を押した回数を保持する変数を定義する
+  // int yes_cnt = 0; int no_cnt = 0; int any_cnt = 0;
+  // それぞれのボタンの処理部分の最初にこの変数をインクリメントする処理を追加する
+
   List<Widget> scoreKeeper = [];
 
   List<Widget> scoreKeeper1 = [];
@@ -35,6 +50,8 @@ class _ResultScreenState extends State<ResultScreen> {
     String correctAnswer = quizBrain.getCorrectAnswer();
     setState(() {
       if (quizBrain.isFinished() == true) {
+        // TODO AlertDialog とかの方が良いかも
+        // ここのダイアログ出す部分の処理はCheckAnswer2,3でも使われてるので関数分けた方がコード短くなってきれいです
         Alert(
             context: context,
             title: "お疲れさまでした！",
@@ -220,10 +237,26 @@ class _ResultScreenState extends State<ResultScreen> {
     });
   }
 
+  // TODO
+  // 項目ごとの合計をグラフで表示したい
+  // https://pub.dev/packages/percent_indicator
+  // これでいけると思う
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('アンケート')),
+      // TODO
+      // quizBrain.isFinished()で質問が終わったかを判定してるっぽいので
+      // それをレイアウト側でも参照すれば画面を切り替えられる
+      // ダイアログ内で画面遷移しようとすると管理しなきゃいけないことがあって大変なのでオススメはしないです
+      // quizBrain.isFinished()　←これを使う場合はどこかにsetStateが必要です
+      /* ex)
+         body: quizBrain.isFinished() ? Container() : Container();
+      */
+
+      // ダイアログの「採点ページ」ボタン押したらtrueになるような変数を作って
+      // 上記の様に条件に使うのも良いです
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         child: Column(
