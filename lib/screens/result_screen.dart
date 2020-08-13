@@ -6,15 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 QuizBrain quizBrain = QuizBrain();
 
 class ResultScreen extends StatefulWidget {
-  String name = '', birthday = '', gender = '', age = ''; // 入力値保持用
-  // TODO 引数の初期値はこうやっていれるのはよろしくない
-  // クラスの引数は以下みたいにすると見た目的にも綺麗
-  // @required　を付けることで引数が渡されない状態を防げる
-//  ResultScreen({
-//    @required this.name,
-//    @required this.birthday,
-//    @required this.gender,
-//    @required this.age});
+  String name = '', birthday = '', gender = '', age = '';
 
   ResultScreen(String name, birthday, gender, age) {
     this.name = name;
@@ -28,7 +20,7 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  // TODO ここに「はい」「いいえ」「どちらでもない」を押した回数を保持する変数を定義する
+
   int _cpCounter2 = 2;
   int _npCounter2 = 2;
   int _aCounter2 = 2;
@@ -183,14 +175,13 @@ class _ResultScreenState extends State<ResultScreen> {
     });
   }
 
-  int _questionnaireNumber = 0;
+  int _questionnaireNumber = 1;
   void _questionnaireNumber1() {
     setState(() {
       _questionnaireNumber++;
     });
   }
 
-  // それぞれのボタンの処理部分の最初にこの変数をインクリメントする処理を追加する
 
   List<Widget> scoreKeeper = [];
 
@@ -205,8 +196,6 @@ class _ResultScreenState extends State<ResultScreen> {
     String correctAnswer = quizBrain.getCorrectAnswer();
     setState(() {
       if (quizBrain.isFinished() == true) {
-        // TODO AlertDialog とかの方が良いかも
-        // ここのダイアログ出す部分の処理はCheckAnswer2,3でも使われてるので関数分けた方がコード短くなってきれいです
         showDialog(
           context: context,
           builder: (context) {
@@ -383,25 +372,10 @@ class _ResultScreenState extends State<ResultScreen> {
     });
   }
 
-  // TODO
-  // 項目ごとの合計をグラフで表示したい
-  // https://pub.dev/packages/percent_indicator
-  // これでいけると思う
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('アンケート')),
-      // TODO
-      // quizBrain.isFinished()で質問が終わったかを判定してるっぽいので
-      // それをレイアウト側でも参照すれば画面を切り替えられる
-      // ダイアログ内で画面遷移しようとすると管理しなきゃいけないことがあって大変なのでオススメはしないです
-      // quizBrain.isFinished()　←これを使う場合はどこかにsetStateが必要です
-
-//         body: quizBrain.isFinished() ? Container() : Container();
-
-      // ダイアログの「採点ページ」ボタン押したらtrueになるような変数を作って
-      // 上記の様に条件に使うのも良いです
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         child: Column(
@@ -412,8 +386,8 @@ class _ResultScreenState extends State<ResultScreen> {
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             Container(
-              height: 300.0,
-              color: Color(0xff999999),
+              height: 280.0,
+              color: Color(0xffe2fbf6),
               child: Column(
                 children: <Widget>[
                   Expanded(
@@ -555,119 +529,124 @@ class _ResultScreenState extends State<ResultScreen> {
                 ],
               ),
             ),
+            Text('TEGエゴグラム・データ', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
             Row(
               children: <Widget>[
-                Container(
-                  height: 250.0,
-                  width: 180.0,
-                  child: AspectRatio(
-                    aspectRatio: 1.7,
-                    child: Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
-                      color: Colors.white,
-                      child: BarChart(
-                        BarChartData(
-                          alignment: BarChartAlignment.spaceAround,
-                          maxY: 20,
-                          barTouchData: BarTouchData(
-                            enabled: false,
-                            touchTooltipData: BarTouchTooltipData(
-                              tooltipBgColor: Colors.transparent,
-                              tooltipPadding: const EdgeInsets.all(0),
-                              tooltipBottomMargin: 3.0,
-                              getTooltipItem: (
-                                BarChartGroupData group,
-                                int groupIndex,
-                                BarChartRodData rod,
-                                int rodIndex,
-                              ) {
-                                return BarTooltipItem(
-                                  rod.y.round().toString(),
-                                  TextStyle(
-                                    color: Colors.blueGrey,
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, top: 5.0),
+                  child: Container(
+                    color: Color(0xffe2fbf6),
+                    height: 230.0,
+                    width: 155.0,
+                    child: AspectRatio(
+                      aspectRatio: 1.7,
+                      child: Card(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
+                        color: Color(0xffe2fbf6),
+                        child: BarChart(
+                          BarChartData(
+                            alignment: BarChartAlignment.spaceAround,
+                            maxY: 20,
+                            barTouchData: BarTouchData(
+                              enabled: false,
+                              touchTooltipData: BarTouchTooltipData(
+                                tooltipBgColor: Colors.transparent,
+                                tooltipPadding: const EdgeInsets.all(0),
+                                tooltipBottomMargin: 3.0,
+                                getTooltipItem: (
+                                  BarChartGroupData group,
+                                  int groupIndex,
+                                  BarChartRodData rod,
+                                  int rodIndex,
+                                ) {
+                                  return BarTooltipItem(
+                                    rod.y.round().toString(),
+                                    TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              bottomTitles: SideTitles(
+                                showTitles: true,
+                                textStyle: TextStyle(
+                                    color: const Color(0xff7589a2),
                                     fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              },
+                                    fontSize: 15.0),
+                                margin: 10.0,
+                                getTitles: (double value) {
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return 'CP';
+                                    case 1:
+                                      return 'NP';
+                                    case 2:
+                                      return 'A';
+                                    case 3:
+                                      return 'FC';
+                                    case 4:
+                                      return 'AC';
+                                    case 5:
+                                      return 'L';
+                                    default:
+                                      return '';
+                                  }
+                                },
+                              ),
+                              leftTitles: SideTitles(showTitles: false),
                             ),
-                          ),
-                          titlesData: FlTitlesData(
-                            show: true,
-                            bottomTitles: SideTitles(
-                              showTitles: true,
-                              textStyle: TextStyle(
-                                  color: const Color(0xff7589a2),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.0),
-                              margin: 10.0,
-                              getTitles: (double value) {
-                                switch (value.toInt()) {
-                                  case 0:
-                                    return 'CP';
-                                  case 1:
-                                    return 'NP';
-                                  case 2:
-                                    return 'A';
-                                  case 3:
-                                    return 'FC';
-                                  case 4:
-                                    return 'AC';
-                                  case 5:
-                                    return 'L';
-                                  default:
-                                    return '';
-                                }
-                              },
+                            borderData: FlBorderData(
+                              show: false,
                             ),
-                            leftTitles: SideTitles(showTitles: false),
+                            barGroups: [
+                              BarChartGroupData(x: 0, barRods: [
+                                BarChartRodData(
+                                    y: 2 * _cpYesCounter.toDouble() +
+                                        _cpOtherCounter.toDouble(),
+                                    color: Colors.lightBlueAccent)
+                              ], showingTooltipIndicators: [
+                                0
+                              ]),
+                              BarChartGroupData(x: 1, barRods: [
+                                BarChartRodData(
+                                    y: 2 * _npYesCounter.toDouble() +
+                                        _npOtherCounter.toDouble(),
+                                    color: Colors.lightBlueAccent)
+                              ], showingTooltipIndicators: [
+                                0
+                              ]),
+                              BarChartGroupData(x: 2, barRods: [
+                                BarChartRodData(
+                                    y: 2 * _aYesCounter.toDouble() +
+                                        _aOtherCounter.toDouble(),
+                                    color: Colors.lightBlueAccent)
+                              ], showingTooltipIndicators: [
+                                0
+                              ]),
+                              BarChartGroupData(x: 3, barRods: [
+                                BarChartRodData(
+                                    y: 2 * _fcYesCounter.toDouble() +
+                                        _fcOtherCounter.toDouble(),
+                                    color: Colors.lightBlueAccent)
+                              ], showingTooltipIndicators: [
+                                0
+                              ]),
+                              BarChartGroupData(x: 4, barRods: [
+                                BarChartRodData(
+                                    y: 2 * _acYesCounter.toDouble() +
+                                        _acOtherCounter.toDouble(),
+                                    color: Colors.lightBlueAccent)
+                              ], showingTooltipIndicators: [
+                                0
+                              ]),
+                            ],
                           ),
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          barGroups: [
-                            BarChartGroupData(x: 0, barRods: [
-                              BarChartRodData(
-                                  y: 2 * _cpYesCounter.toDouble() +
-                                      _cpOtherCounter.toDouble(),
-                                  color: Colors.lightBlueAccent)
-                            ], showingTooltipIndicators: [
-                              0
-                            ]),
-                            BarChartGroupData(x: 1, barRods: [
-                              BarChartRodData(
-                                  y: 2 * _npYesCounter.toDouble() +
-                                      _npOtherCounter.toDouble(),
-                                  color: Colors.lightBlueAccent)
-                            ], showingTooltipIndicators: [
-                              0
-                            ]),
-                            BarChartGroupData(x: 2, barRods: [
-                              BarChartRodData(
-                                  y: 2 * _aYesCounter.toDouble() +
-                                      _aOtherCounter.toDouble(),
-                                  color: Colors.lightBlueAccent)
-                            ], showingTooltipIndicators: [
-                              0
-                            ]),
-                            BarChartGroupData(x: 3, barRods: [
-                              BarChartRodData(
-                                  y: 2 * _fcYesCounter.toDouble() +
-                                      _fcOtherCounter.toDouble(),
-                                  color: Colors.lightBlueAccent)
-                            ], showingTooltipIndicators: [
-                              0
-                            ]),
-                            BarChartGroupData(x: 4, barRods: [
-                              BarChartRodData(
-                                  y: 2 * _acYesCounter.toDouble() +
-                                      _acOtherCounter.toDouble(),
-                                  color: Colors.lightBlueAccent)
-                            ], showingTooltipIndicators: [
-                              0
-                            ]),
-                          ],
                         ),
                       ),
                     ),
@@ -676,9 +655,9 @@ class _ResultScreenState extends State<ResultScreen> {
                 Column(
                   children: <Widget>[
                     Container(
-                      color: Colors.grey,
+                      color: Color(0xffe2fbf6),
                       height: 130.0,
-                      width: 200.0,
+                      width: 195.0,
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Column(
@@ -763,10 +742,11 @@ class _ResultScreenState extends State<ResultScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 0.0),
+                      padding: const EdgeInsets.only(top: 10.0),
                       child: Container(
-                        height: 105.0,
-                        width: 200.0,
+                        color: Color(0xffe2fbf6),
+                        height: 95.0,
+                        width: 195.0,
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: ListView(
